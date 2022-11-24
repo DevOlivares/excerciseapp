@@ -1,74 +1,39 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:src/blocs/workouts_cubits.dart';
+import 'package:src/models/workout.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main()=>runApp(const WorkoutTime());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class WorkoutTime extends StatelessWidget {
+  const WorkoutTime({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mis My Workouts with Love :)',
+      title: 'My Workouts with Love :)',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(color: Color.fromARGB(255, 66, 74, 96))
+        )
       ),
-      home: const MyHomePage(title: 'My Workouts'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(
-      appBar: AppBar(
-
-        title: Text(widget.title),
+      home: BlocProvider<WorkoutCubit>(
+        create: (BuildContext context){
+          WorkoutCubit workoutCubit = WorkoutCubit();
+          if(workoutCubit.state.isEmpty){
+            print("...loading json since the state is empty");
+            workoutCubit.getWorkouts();
+          }else{
+            print("...the state is not empty");
+          }
+          return workoutCubit;
+        },
+        child: BlocBuilder<WorkoutCubit, List<Workout>>(builder: (context, state){
+          return const Center(child: Text("Haz TODO Con Amor..."));
+        },),
       ),
-      body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
