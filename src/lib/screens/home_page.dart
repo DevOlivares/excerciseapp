@@ -43,8 +43,9 @@ class HomePage extends StatelessWidget {
                         horizontal: 0,
                         vertical: VisualDensity.maximumDensity,
                       ),
-                      leading: const IconButton(onPressed: null, icon: Icon(Icons.edit)),
+                      leading: Text(formatTime(workout.exercises[index].prelude!, true)),
                       title: Text(workout.exercises[index].title!),
+                      trailing: Text(formatTime(workout.exercises[index].duration!,true)),
                     ),
                   ),
 
