@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        child: BlocBuilder<WorkoutCubit, List<Workout>>(
+        child: BlocBuilder<WorkoutsCubit, List<Workout>>(
           builder: (context,workouts)=>ExpansionPanelList.radio(
             children:
               workouts.map((workout)=> ExpansionPanelRadio(

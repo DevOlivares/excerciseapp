@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:src/models/workout.dart';
 
-class WorkoutCubit extends Cubit<List<Workout>> {
-WorkoutCubit():super([]);
+class WorkoutsCubit extends Cubit<List<Workout>> {
+WorkoutsCubit():super([]);
   getWorkouts() async {
     final List<Workout> workouts = [];
     final workoutsJson = jsonDecode(

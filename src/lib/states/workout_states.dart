@@ -14,7 +14,7 @@ abstract class WorkoutState extends Equatable{
 
   @override
   // TODO: implement props
-  List<Object?> get props => throw [];
+  List<Object?> get props =>  [];
   }
 
   class WorkoutEditing extends WorkoutState{

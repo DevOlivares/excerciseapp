@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:src/blocs/workout_cubit.dart';
 import 'package:src/blocs/workouts_cubits.dart';
 import 'package:src/screens/home_page.dart';
 import 'package:src/states/workout_states.dart';
+import 'package:bloc/bloc.dart';
 
 void main()=>runApp(const WorkoutTime());
 
@@ -38,18 +40,18 @@ class WorkoutTime extends StatelessWidget {
       )*/
       MultiBlocProvider(
         providers: [
-          BlocProvider<WorkoutCubit>(
+          BlocProvider<WorkoutsCubit>(
             create: (BuildContext context){
-              WorkoutCubit workoutCubit = WorkoutCubit();
-              if(workoutCubit.state.isEmpty){
+              WorkoutsCubit workoutsCubit = WorkoutsCubit();
+              if(workoutsCubit.state.isEmpty){
                 print("...loading json since the state is empty");
-                workoutCubit.getWorkouts();
+                workoutsCubit.getWorkouts();
               }else{
                 print("...the state is not empty");
               }
-              return workoutCubit;
+              return workoutsCubit;
             }),
-          BlocProvider<WorkoutCubit>(create: (BuildContext context)=> WorkoutCubit())
+          BlocProvider<WorkoutCubit>(create: (BuildContext context)=> WorkoutCubit(),)
         ],
         child: BlocBuilder<WorkoutCubit,WorkoutState>(
           builder: (context,state){
