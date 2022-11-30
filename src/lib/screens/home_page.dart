@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:src/blocs/workout_cubit.dart';
 import 'package:src/blocs/workouts_cubits.dart';
 import 'package:src/models/workout.dart';
 
@@ -29,7 +30,9 @@ class HomePage extends StatelessWidget {
             horizontal: 0,
             vertical: VisualDensity.maximumDensity,
         ),
-        leading: const IconButton(onPressed: null, icon: Icon(Icons.edit)),
+        leading:  IconButton(
+            onPressed:(){ BlocProvider.of<WorkoutCubit>(context).editWorkout(workout, workouts.indexOf(workout));},
+            icon: Icon(Icons.edit)),
         title: Text(workout.title!),
         trailing: Text(formatTime(workout.getTotal(), true)),
         ),

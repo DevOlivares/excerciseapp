@@ -19,11 +19,10 @@ abstract class WorkoutState extends Equatable{
 
   class WorkoutEditing extends WorkoutState{
     final int index;
-    const  WorkoutEditing(
-        Workout? workout,
-        this.index):super(workout,0);
+    final int? exIndex;
+    const  WorkoutEditing(Workout? workout, this.index, this.exIndex):super(workout,0);
 
     @override
     // TODO: implement props
-    List<Object?> get props => throw [workout,index];
+    List<Object?> get props => throw [workout,index, exIndex];
   }

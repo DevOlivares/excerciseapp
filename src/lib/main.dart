@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:src/blocs/workout_cubit.dart';
 import 'package:src/blocs/workouts_cubits.dart';
+import 'package:src/screens/edit_workout_screen.dart';
 import 'package:src/screens/home_page.dart';
 import 'package:src/states/workout_states.dart';
 import 'package:bloc/bloc.dart';
@@ -56,9 +57,10 @@ class WorkoutTime extends StatelessWidget {
         child: BlocBuilder<WorkoutCubit,WorkoutState>(
           builder: (context,state){
             if(state is WorkoutInitial){
-           return HomePage();
+           return const HomePage();
             }else if (state is WorkoutEditing){
-              return Container();
+              print("Editing");
+              return const EditWorkoutScreen();
             }
             return Container();
           },
