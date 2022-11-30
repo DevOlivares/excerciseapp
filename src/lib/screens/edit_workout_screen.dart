@@ -6,6 +6,8 @@ import 'package:src/helpers.dart';
 import 'package:src/models/exercise.dart';
 import 'package:src/states/workout_states.dart';
 
+import 'edit_exercise_screen.dart';
+
 class EditWorkoutScreen extends StatelessWidget {
   const EditWorkoutScreen({Key? key}) : super(key: key);
 
@@ -25,12 +27,19 @@ class EditWorkoutScreen extends StatelessWidget {
                   itemCount: we.workout!.exercises.length,
                   itemBuilder: (context, index){
                     Exercise exercise = we.workout!.exercises[index];
-                    return ListTile(
-                    leading: Text(formatTime(exercise.prelude!, true)),
-                      title: Text(exercise.title!),
-                      trailing: Text(formatTime(exercise.duration!, true)),
-                      onTap: ()=>BlocProvider.of<WorkoutCubit>(context).editExercise(index),
-                    );
+
+                    if(we.exIndex==index){
+                      return EditExerciseScreen(workout:we.workout,index:we.index,exIndex:we.exIndex);
+                    }else{
+                      return ListTile(
+                        leading: Text(formatTime(exercise.prelude!, true)),
+                        title: Text(exercise.title!),
+                        trailing: Text(formatTime(exercise.duration!, true)),
+                        onTap: ()=>BlocProvider.of<WorkoutCubit>(context).editExercise(index),
+                      );
+
+                    }
+
             },
               ),
             );
