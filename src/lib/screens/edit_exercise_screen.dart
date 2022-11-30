@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:src/blocs/workouts_cubits.dart';
 
 import '../models/workout.dart';
 
@@ -39,7 +41,12 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
                   textAlign: TextAlign.center,
                   controller: _title,
                   onChanged: (value)=>setState(() {
-
+                    widget.workout!.exercises[widget.exIndex!]
+                    =widget.workout!.exercises[widget.exIndex!].copyWith(
+                    title: value,
+                  );
+                    BlocProvider.of<WorkoutsCubit>(context).
+                    saveWorkout(widget.workout!, widget.index);
                   }),
                 ),
                 ),

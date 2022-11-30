@@ -59,7 +59,6 @@ class WorkoutTime extends StatelessWidget {
             if(state is WorkoutInitial){
            return const HomePage();
             }else if (state is WorkoutEditing){
-              print("Editing");
               return EditWorkoutScreen();
             }
             return Container();
