@@ -19,6 +19,7 @@ class Workout extends Equatable{
     return Workout(exercises: exercises, title:  json['title'] as String);
   }
   Map<String, dynamic> toJson()=>{'title':title, 'exercises':exercises};
+  copyWith({String? title})=> Workout(title: title??this.title,exercises: exercises);
 
   int getTotal(){
     int time= exercises.fold(0,(prev,ex)=>prev+ex.duration!+ex.prelude!);

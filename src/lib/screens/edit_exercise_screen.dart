@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:src/blocs/workouts_cubits.dart';
+import 'package:src/helpers.dart';
 
 import '../models/workout.dart';
 
@@ -37,6 +40,65 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
         Row(
           children: [
             Expanded(
+                child: InkWell(
+                  onLongPress:()=> showDialog(context: context,
+                      builder:
+                      (_){
+                    final controller= TextEditingController(
+                      text: widget.workout!.exercises[widget.exIndex!].prelude!.toString(),
+                    );
+                    return AlertDialog(
+                      content: TextField(
+                        controller: controller,
+                          decoration: const InputDecoration(
+                            labelText: "Prelude (Seconds)"
+                          ),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              if (controller.text.isNotEmpty) {
+                                Navigator.pop(context);
+                                setState((){
+                                  widget.workout!.exercises[widget.exIndex!]
+                                  =widget.workout!.exercises[widget.exIndex!].copyWith(
+                                    prelude: int.parse(
+                                        controller.text),
+                                  );
+                                  BlocProvider.of<WorkoutsCubit>(context).
+                                  saveWorkout(widget.workout!, widget.index);
+                                }
+                                );
+                              }
+                            },
+                            child: Text("Save"),)
+
+                      ],
+                    );
+                      }
+                  ),
+                  child: NumberPicker(
+                  itemHeight: 30,
+                    value: widget.workout!.exercises[widget.exIndex!].prelude!,
+                    maxValue: 3599,
+                    minValue: 0,
+                    textMapper: (strVal)=>formatTime(int.parse(strVal),false),
+                    onChanged: (value)=>setState((){
+                      widget.workout!.exercises[widget.exIndex!]
+                      =widget.workout!.exercises[widget.exIndex!].copyWith(
+                      prelude: value,
+                      );
+                      BlocProvider.of<WorkoutsCubit>(context).
+                      saveWorkout(widget.workout!, widget.index);
+                      }),
+                  ),
+                ),
+            ),
+            Expanded(
                 child:TextField(
                   textAlign: TextAlign.center,
                   controller: _title,
@@ -50,6 +112,66 @@ class _EditExerciseScreenState extends State<EditExerciseScreen> {
                   }),
                 ),
                 ),
+            Expanded(
+              flex: 3,
+              child: InkWell(
+                onLongPress:()=> showDialog(context: context,
+                    builder:
+                        (_){
+                      final controller= TextEditingController(
+                        text: widget.workout!.exercises[widget.exIndex!].duration!.toString(),
+                      );
+                      return AlertDialog(
+                        content: TextField(
+                          controller: controller,
+                          decoration: const InputDecoration(
+                              labelText: "Duration (Seconds)"
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              if (controller.text.isNotEmpty) {
+                                Navigator.pop(context);
+                                setState((){
+                                  widget.workout!.exercises[widget.exIndex!]
+                                  =widget.workout!.exercises[widget.exIndex!].copyWith(
+                                    duration: int.parse(
+                                        controller.text),
+                                  );
+                                  BlocProvider.of<WorkoutsCubit>(context).
+                                  saveWorkout(widget.workout!, widget.index);
+                                }
+                                );
+                              }
+                            },
+                            child: Text("Save"),)
+
+                        ],
+                      );
+                    }
+                ),
+                child: NumberPicker(
+                  itemHeight: 30,
+                  value: widget.workout!.exercises[widget.exIndex!].duration!,
+                  maxValue: 3599,
+                  minValue: 0,
+                  textMapper: (strVal)=>formatTime(int.parse(strVal),false),
+                  onChanged: (value)=>setState((){
+                    widget.workout!.exercises[widget.exIndex!]
+                    =widget.workout!.exercises[widget.exIndex!].copyWith(
+                      duration: value,
+                    );
+                    BlocProvider.of<WorkoutsCubit>(context).
+                    saveWorkout(widget.workout!, widget.index);
+                  }),
+                ),
+              ),
+            ),
           ],
         ),
       ],

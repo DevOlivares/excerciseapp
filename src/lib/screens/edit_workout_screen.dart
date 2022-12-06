@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:src/blocs/workout_cubit.dart';
+import 'package:src/blocs/workouts_cubits.dart';
 import 'package:src/helpers.dart';
 import 'package:src/models/exercise.dart';
+import 'package:src/models/workout.dart';
 import 'package:src/states/workout_states.dart';
 
 import 'edit_exercise_screen.dart';
@@ -21,6 +23,40 @@ class EditWorkoutScreen extends StatelessWidget {
               appBar: AppBar(
                 leading: BackButton(
                   onPressed: ()=>BlocProvider.of<WorkoutCubit>(context).goHome(),
+                ),
+                title: InkWell(
+                  child: Text(we.workout!.title!),
+                  onTap: ()=> showDialog(
+                      context: context,
+                      builder: (_){
+                        final controller=TextEditingController(text: we.workout!.title!);
+                        return AlertDialog(
+                          content: TextField(
+                            controller: controller,
+                            decoration: InputDecoration(
+                              labelText: "Workout title"
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: (){
+                                 if(controller.text.isNotEmpty){
+                                   Navigator.pop(context);
+                                   Workout renamed = we.workout!.copyWith(
+                                     title: controller.text);
+                                   BlocProvider.of<WorkoutsCubit>(context).
+                                   saveWorkout(renamed, we.index);
+                                   BlocProvider.of<WorkoutCubit>(context).
+                                  editWorkout(renamed,we.index);
+
+                                 }
+                                },
+
+                                child: Text("Rename"))
+                          ],
+                        );
+                      }
+                  ),
                 ),
               ),
               body: ListView.builder(
