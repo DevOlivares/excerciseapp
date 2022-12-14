@@ -37,3 +37,13 @@ abstract class WorkoutState extends Equatable{
     // TODO: implement props
     List<Object?> get props =>  [workout,index, exIndex];
   }
+
+  class WorkoutPaused extends WorkoutState{
+
+  const WorkoutPaused(Workout? workout, int? elapsed):super (workout, elapsed);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [workout, elapsed];
+
+  }
